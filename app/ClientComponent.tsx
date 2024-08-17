@@ -119,46 +119,45 @@ const handleFlip = (index: number) => {
           </div>
         );
         case 'portfolio':
-            return (
-              <div className="space-y-8">
-                <h2 className="text-4xl font-bold text-accent">Latest Projects</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {portfolioData.map((item, index) => (
-                    <motion.div
-                      key={item.title}
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 * index, duration: 0.5 }}
-                      className="bg-backgroundalt p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+  return (
+    <div className="space-y-8">
+      <h2 className="text-4xl font-bold text-accent mb-8">Latest Projects</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {portfolioData.map((item, index) => (
+          <motion.div
+            key={item.title}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 * index, duration: 0.5 }}
+            className="flip-card-container"
+          >
+            <div className="flip-card" onClick={() => handleFlip(index)}>
+              <div className={`flip-card-inner ${flippedCards[index] ? 'flipped' : ''}`}>
+                <div className="flip-card-front">
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover rounded-lg" />
+                </div>
+                <div className="flip-card-back">
+                  <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
+                  <p className="text-lg mb-2">Artist: {item.artist}</p>
+                  <p className="text-sm mb-4">{item.credits}</p>
+                  {item.spotifyLink && (
+                    <a
+                      href={item.spotifyLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-accent text-white px-4 py-2 rounded-md hover:bg-accent-dark transition-colors duration-300"
                     >
-                      <div className="flip-card" onClick={() => handleFlip(index)}>
-                        <div className={`flip-card-inner ${flippedCards[index] ? 'flipped' : ''}`}>
-                          <div className="flip-card-front">
-                            <img src={item.image} alt={item.title} className="w-full h-64 object-cover rounded-md" />
-                            <h3 className="text-xl font-bold mt-2">{item.title}</h3>
-                            <p className="text-text">Artist: {item.artist}</p>
-                          </div>
-                          <div className="flip-card-back">
-                            <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                            <p className="text-sm mb-4">{item.credits}</p>
-                            {item.spotifyLink && (
-                              <a
-                                href={item.spotifyLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bg-accent text-white px-4 py-2 rounded-md hover:bg-accent-dark transition-colors duration-300"
-                              >
-                                Listen on Spotify
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                      Listen on Spotify
+                    </a>
+                  )}
                 </div>
               </div>
-            );
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
       case 'services':
         return (
           <div className="space-y-8">
@@ -318,50 +317,61 @@ const handleFlip = (index: number) => {
 return (
     // ... (all your existing JSX)
     <style jsx global>{`
-      .flip-card {
-        perspective: 1000px;
-        background-color: transparent;
-        width: 100%;
-        height: 400px;
-        cursor: pointer;
-      }
+  .flip-card-container {
+    perspective: 1000px;
+    width: 100%;
+    padding-top: 100%; /* This creates a square aspect ratio */
+    position: relative;
+  }
 
-      .flip-card-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
-      }
+  .flip-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
 
-      .flip-card-inner.flipped {
-        transform: rotateY(180deg);
-      }
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
 
-      .flip-card-front, .flip-card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-radius: 8px;
-        padding: 1rem;
-      }
+  .flip-card-inner.flipped {
+    transform: rotateY(180deg);
+  }
 
-      .flip-card-front {
-        background-color: var(--backgroundalt-color);
-      }
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow: hidden;
+  }
 
-      .flip-card-back {
-        background-color: #1a1a1a;
-        color: white;
-        transform: rotateY(180deg);
-      }
-    `}</style>
+  .flip-card-front {
+    background-color: var(--backgroundalt-color);
+  }
+
+  .flip-card-back {
+    background-color: rgba(26, 26, 26, 0.9);
+    color: white;
+    transform: rotateY(180deg);
+  }
+`}</style>
   );
 
   </div>
