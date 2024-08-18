@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData, PortfolioItem } from '../data/portfolioData';
 
 const Portfolio: React.FC = () => {
-  const [flippedCards, setFlippedCards] = useState<boolean[]>(new Array(portfolioData.length).fill(false));
+  const [flippedCardIndex, setFlippedCardIndex] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean[]>(new Array(portfolioData.length).fill(false));
   const audioRefs = useRef<(HTMLAudioElement | null)[]>(new Array(portfolioData.length).fill(null));
   const [typeFilter, setTypeFilter] = useState<string>('All');
@@ -18,11 +18,7 @@ const Portfolio: React.FC = () => {
   }, [typeFilter, genreFilter]);
 
   const handleFlip = (index: number) => {
-    setFlippedCards(prev => {
-      const newFlippedCards = [...prev];
-      newFlippedCards[index] = !newFlippedCards[index];
-      return newFlippedCards;
-    });
+    setFlippedCardIndex(prevIndex => prevIndex === index ? null : index);
   };
 
   const togglePlay = (index: number) => {
@@ -44,42 +40,48 @@ const Portfolio: React.FC = () => {
 
   const ExpandedView: React.FC<{ item: PortfolioItem }> = ({ item }) => (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       onClick={() => setExpandedItem(null)}
     >
-      <div className="bg-backgroundalt p-8 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-        <div className="flex flex-col md:flex-row">
-          <img src={item.image} alt={item.title} className="w-full md:w-1/2 object-cover rounded-lg mb-4 md:mb-0 md:mr-4" />
-          <div className="md:w-1/2">
-            <h2 className="text-3xl font-bold mb-2">{item.title}</h2>
-            <p className="text-xl mb-4">{item.artist}</p>
-            <p className="mb-2">Type: {item.type}</p>
-            <p className="mb-4">Genre: {item.genre}</p>
-            <h3 className="text-xl font-bold mb-2">Tracklist:</h3>
-            <ul className="list-disc list-inside mb-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        className="bg-backgroundalt p-8 rounded-lg w-[90vw] h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex flex-col lg:flex-row">
+          <img src={item.image} alt={item.title} className="w-full lg:w-1/2 object-cover rounded-lg mb-4 lg:mb-0 lg:mr-8" />
+          <div className="lg:w-1/2">
+            <h2 className="text-4xl font-bold mb-2">{item.title}</h2>
+            <p className="text-2xl mb-4">{item.artist}</p>
+            <p className="text-xl mb-2">Type: {item.type}</p>
+            <p className="text-xl mb-4">Genre: {item.genre}</p>
+            <h3 className="text-2xl font-bold mb-2">Tracklist:</h3>
+            <ul className="list-disc list-inside mb-4 text-lg">
               {item.tracklist?.map((track, index) => (
                 <li key={index}>{track}</li>
               ))}
             </ul>
-            <h3 className="text-xl font-bold mb-2">Credits:</h3>
-            <p className="whitespace-pre-line mb-4">{item.credits}</p>
+            <h3 className="text-2xl font-bold mb-2">Credits:</h3>
+            <p className="whitespace-pre-line mb-4 text-lg">{item.credits}</p>
             {item.spotifyLink && (
               <a
                 href={item.spotifyLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-accent text-white px-4 py-2 rounded-md hover:bg-accent-dark transition-colors duration-300 inline-block mb-4"
+                className="bg-accent text-white px-6 py-3 text-lg rounded-md hover:bg-accent-dark transition-colors duration-300 inline-block mb-4"
               >
                 Listen on Spotify
               </a>
             )}
-            <audio controls src={item.audioSrc} className="w-full" />
+            <audio controls src={item.audioSrc} className="w-full mt-4" />
           </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 
@@ -113,7 +115,7 @@ const Portfolio: React.FC = () => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 overflow-y-auto max-h-[70vh]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-[calc(100vh-250px)] overflow-y-auto pb-8">
         {filteredData.map((item, index) => (
           <motion.div
             key={item.title}
@@ -123,7 +125,7 @@ const Portfolio: React.FC = () => {
             className="w-full"
           >
             <div 
-              className={`flip-card ${flippedCards[index] ? 'flipped' : ''}`} 
+              className={`flip-card ${flippedCardIndex === index ? 'flipped' : ''}`} 
               onClick={() => handleFlip(index)}
             >
               <div className="flip-card-inner">
