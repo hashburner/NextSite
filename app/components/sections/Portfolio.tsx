@@ -90,14 +90,16 @@ const Portfolio: React.FC = () => {
                     </motion.div>
                   </button>
                   <audio
-                    ref={el => audioRefs.current[index] = el}
-                    src={item.audioSrc}
-                    onEnded={() => setIsPlaying(prev => {
-                      const newIsPlaying = [...prev];
-                      newIsPlaying[index] = false;
-                      return newIsPlaying;
-                    })}
-                  />
+  ref={(el) => {
+    audioRefs.current[index] = el;
+  }}
+  src={item.audioSrc}
+  onEnded={() => setIsPlaying(prev => {
+    const newIsPlaying = [...prev];
+    newIsPlaying[index] = false;
+    return newIsPlaying;
+  })}
+/>
                 </div>
               </div>
             </div>
