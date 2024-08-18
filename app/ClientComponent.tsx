@@ -9,6 +9,7 @@ interface PortfolioItem {
   title: string;
   artist: string;
   image: string;
+  audioSrc: string;
   spotifyLink?: string;
   credits?: string;
 }
@@ -18,6 +19,7 @@ const portfolioData: PortfolioItem[] = [
     title: "What Was the Question?", 
     artist: "Curtisy", 
     image: "images/placeholder_artwork_1.jpg", 
+    audioSrc: "audio/what_was_the_question_sample.mp3",
     spotifyLink: "https://open.spotify.com/album/2fKkKKLxeXHlKknCUckPJN?si=2PLDvfqQQ42HQ3pZY5Nj8g",
     credits: "Mixed and Mastered by Killian Taylor\nProduced by Curtisy\nRecorded at Soundwave Studios"
   },
@@ -25,24 +27,28 @@ const portfolioData: PortfolioItem[] = [
     title: "Four Winds Echo On The Stave", 
     artist: "Leon McMahon", 
     image: "images/placeholder_artwork_2.jpg",
+    audioSrc: "audio/what_was_the_question_sample.mp3",
     credits: "Produced and Mixed by Killian Taylor\nMastered at Abbey Road Studios"
   },
   { 
     title: "Weed Addict", 
     artist: "Peer PLeasure", 
     image: "images/Weed%20Addict_album_cover.jpg",
+    audioSrc: "audio/what_was_the_question_sample.mp3",
     credits: "Engineered and Mixed by Killian Taylor\nProduced by Peer Pleasure\nMastered by Bob Ludwig"
   },
   { 
     title: "Shiny Things", 
     artist: "Evie", 
     image: "images/Shiny%20Things_album_cover.jpg",
+    audioSrc: "audio/what_was_the_question_sample.mp3",
     credits: "Produced, Mixed, and Mastered by Killian Taylor\nRecorded at Sunset Sound"
   },
   { 
     title: "Lost & Bound", 
     artist: "Yawa", 
     image: "images/Lost%20&%20Bound_album_cover.jpg",
+    audioSrc: "audio/what_was_the_question_sample.mp3",
     credits: "Mixed by Killian Taylor\nProduced by Rick Rubin\nMastered at Sterling Sound"
   },
 ];
@@ -110,7 +116,7 @@ const handleFlip = (index: number) => {
               >
                 <button 
                   onClick={() => setActiveSection('bookings')}
-                  className="bg-accent text-white px-6 py-2 rounded-md hover:bg-accent-dark transition-colors duration-300"
+                  className="bg-accent text-white px-6 py-2 rounded hover:bg-accentdark transition-colors duration-200"
                 >
                   BOOK NOW
                 </button>
@@ -134,7 +140,7 @@ const handleFlip = (index: number) => {
             <div className="flip-card" onClick={() => handleFlip(index)}>
               <div className={`flip-card-inner ${flippedCards[index] ? 'flipped' : ''}`}>
                 <div className="flip-card-front">
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover rounded-lg" />
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover rounded-md shadow-lg"/>
                 </div>
                 <div className="flip-card-back">
                   <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
@@ -145,7 +151,7 @@ const handleFlip = (index: number) => {
                       href={item.spotifyLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-accent text-white px-4 py-2 rounded-md hover:bg-accent-dark transition-colors duration-300"
+                      className="bg-accent text-white px-4 py-2 rounded-md hover:bg-accent-dark transition-colors duration-300 shadow-lg"
                     >
                       Listen on Spotify
                     </a>
