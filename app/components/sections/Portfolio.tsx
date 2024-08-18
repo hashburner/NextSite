@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { portfolioData } from '../data/portfolioData';
 
 const Portfolio: React.FC = () => {
   const [flippedCards, setFlippedCards] = useState<boolean[]>(new Array(portfolioData.length).fill(false));
+  const [isPlaying, setIsPlaying] = useState<boolean[]>(new Array(portfolioData.length).fill(false));
+  const audioRefs = useRef<(HTMLAudioElement | null)[]>(new Array(portfolioData.length).fill(null));
 
   const handleFlip = (index: number) => {
     setFlippedCards(prev => {
@@ -11,6 +13,23 @@ const Portfolio: React.FC = () => {
       newFlippedCards[index] = !newFlippedCards[index];
       return newFlippedCards;
     });
+  };
+
+  const togglePlay = (index: number) => {
+    const audio = audioRefs.current[index];
+    if (audio) {
+      if (isPlaying[index]) {
+        audio.pause();
+        audio.currentTime = 0;
+      } else {
+        audio.play();
+      }
+      setIsPlaying(prev => {
+        const newIsPlaying = [...prev];
+        newIsPlaying[index] = !newIsPlaying[index];
+        return newIsPlaying;
+      });
+    }
   };
 
   return (
@@ -42,11 +61,34 @@ const Portfolio: React.FC = () => {
                       href={item.spotifyLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-accent text-white px-3 py-1 text-sm rounded-md hover:bg-accent-dark transition-colors duration-300"
+                      className="bg-accent text-white px-3 py-1 text-sm rounded-md hover:bg-accent-dark transition-colors duration-300 mb-2"
                     >
                       Listen on Spotify
                     </a>
                   )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      togglePlay(index);
+                    }}
+                    className="mt-2 bg-accent hover:bg-accent-dark text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-300"
+                  >
+                    <motion.div
+                      animate={{ rotate: isPlaying[index] ? 360 : 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {isPlaying[index] ? '◼' : '▶'}
+                    </motion.div>
+                  </button>
+                  <audio
+                    ref={el => audioRefs.current[index] = el}
+                    src={item.audioSrc}
+                    onEnded={() => setIsPlaying(prev => {
+                      const newIsPlaying = [...prev];
+                      newIsPlaying[index] = false;
+                      return newIsPlaying;
+                    })}
+                  />
                 </div>
               </div>
             </div>
@@ -57,7 +99,7 @@ const Portfolio: React.FC = () => {
         .flip-card {
           perspective: 1000px;
           width: 100%;
-          padding-top: 100%; /* This creates a square aspect ratio */
+          padding-top: 100%;
           position: relative;
         }
         .flip-card-inner {

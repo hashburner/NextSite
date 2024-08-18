@@ -12,7 +12,7 @@ export interface PortfolioItem {
       title: "What Was the Question?", 
       artist: "Curtisy", 
       image: "/images/placeholder_artwork_1.jpg", 
-      audioSrc: "/audio/what_was_the_question_sample.mp3",
+      audioSrc: "../../../public/audio/03 Glue Master.wav",
       spotifyLink: "https://open.spotify.com/album/2fKkKKLxeXHlKknCUckPJN?si=2PLDvfqQQ42HQ3pZY5Nj8g",
       credits: "Mixed and Mastered by Killian Taylor\nProduced by Curtisy\nRecorded at Soundwave Studios"
     },
