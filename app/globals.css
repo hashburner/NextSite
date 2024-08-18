@@ -1,13 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 :root {
-  --background-color: #e3ddac;
-  --backgroundalt-color: #faf4c1;
-  --text-color: #4c3935;
-  --accent-color: #ff6666;
-  --accent-dark-color: #ff4d4d;
+  --background-color: #0a0a0a;
+  --backgroundalt-color: #1a1a1a;
+  --text-color: #ffffff;
+  --textmuted-color: #a0a0a0;
+  --accent-color: #ff6b6b;
+  --accent-dark-color: #ee5253;
 }
 
 body {
@@ -15,8 +16,37 @@ body {
   color: var(--text-color);
 }
 
-/* Ensure images don't exceed their container */
-img {
-  max-width: 100%;
-  height: auto;
+.shadow-glow {
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+}
+
+.glassmorphism {
+  background: rgba(26, 26, 26, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(45deg, #ff6b6b, #4158D0);
+}
+
+.bg-animate {
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

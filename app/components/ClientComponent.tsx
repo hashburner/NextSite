@@ -9,6 +9,7 @@ import Portfolio from './sections/Portfolio';
 import Services from './sections/Services';
 import Bookings from './sections/Bookings';
 import About from './sections/About';
+import AnimatedBackground from './AnimatedBackground';
 
 export type Section = 'home' | 'portfolio' | 'services' | 'bookings' | 'about';
 
@@ -44,7 +45,8 @@ const ClientComponent: React.FC = () => {
   };
 
   return (
-    <div className="bg-background text-text min-h-screen font-sans">
+    <div className="bg-background text-text h-screen flex flex-col font-sans overflow-hidden">
+      <AnimatedBackground />
       <AnimatePresence>
         {!isLoaded && (
           <motion.div
@@ -74,7 +76,7 @@ const ClientComponent: React.FC = () => {
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
-              className={`${activeSection === 'home' ? '' : 'pt-24 px-6 max-w-6xl mx-auto'}`}
+              className="flex-grow overflow-hidden"
             >
               {renderSection()}
             </motion.main>
