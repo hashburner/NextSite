@@ -18,17 +18,26 @@ const Portfolio: React.FC = () => {
   const togglePlay = (index: number) => {
     const audio = audioRefs.current[index];
     if (audio) {
+      console.log('Audio element:', audio); // Log the audio element
+      console.log('Audio source:', audio.src); // Log the audio source
       if (isPlaying[index]) {
         audio.pause();
         audio.currentTime = 0;
+        console.log('Audio paused');
       } else {
-        audio.play();
+        audio.play().then(() => {
+          console.log('Audio playing');
+        }).catch((error) => {
+          console.error('Error playing audio:', error);
+        });
       }
       setIsPlaying(prev => {
         const newIsPlaying = [...prev];
         newIsPlaying[index] = !newIsPlaying[index];
         return newIsPlaying;
       });
+    } else {
+      console.error('No audio element found for index:', index);
     }
   };
 
