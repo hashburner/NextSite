@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 :root {
   --background-color: #e3ddac;
@@ -15,7 +15,15 @@ body {
   color: var(--text-color);
 }
 
-/* Ensure images don't exceed their container */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-y: scroll;
+}
+
 img {
   max-width: 100%;
   height: auto;
