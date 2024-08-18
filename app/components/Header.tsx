@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
   const navItems: Section[] = ['home', 'portfolio', 'services', 'bookings', 'about'];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 py-3 px-6 flex justify-between items-center z-10 bg-stone-900 bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-xl">
+    <nav className="fixed top-0 left-0 right-0 py-3 px-6 flex justify-between items-center z-10 white bg-opacity-20 backdrop-filter backdrop-blur-lgl">
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
