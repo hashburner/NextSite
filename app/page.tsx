@@ -1,4 +1,4 @@
-import ClientComponent from './ClientComponent';
+import ClientComponent from './components/ClientComponent';
 
 export default function Home() {
   return <ClientComponent />;
