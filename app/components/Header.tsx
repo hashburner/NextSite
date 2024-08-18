@@ -10,6 +10,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const navItems: Section[] = ['home', 'portfolio', 'services', 'bookings', 'about'];
+
   return (
     <nav className="fixed top-0 left-0 right-0 py-3 px-6 flex justify-between items-center z-10 bg-stone-900 bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-xl">
       <motion.div
@@ -31,18 +33,34 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
         transition={{ delay: 0.2, duration: 0.5 }}
         className={`lg:flex space-y-4 lg:space-y-0 lg:space-x-6 ${menuOpen ? 'block' : 'hidden'} absolute lg:relative top-full left-0 right-0 bg-stone-900 lg:bg-transparent p-4 lg:p-0`}
       >
-        {(['home', 'portfolio', 'services', 'bookings', 'about'] as const).map((item) => (
-          <li key={item} className="cursor-pointer">
-            <motion.span
-              whileHover={{ scale: 1.1 }}
-              className={`uppercase text-sm ${activeSection === item ? 'text-accent' : 'text-gray-300'}`}
+        {navItems.map((item) => (
+          <li key={item} className="cursor-pointer relative overflow-hidden">
+            <motion.button
+              className={`uppercase text-sm ${activeSection === item ? 'text-accent' : 'text-gray-300'} relative z-10`}
               onClick={() => {
                 setActiveSection(item);
                 setMenuOpen(false);
               }}
+              whileHover={{
+                scale: 1.1,
+                transition: { duration: 0.2 }
+              }}
             >
               {item}
-            </motion.span>
+              <motion.div
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: activeSection === item ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.button>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-accent to-gradient2 opacity-0 mix-blend-overlay blur-sm"
+              whileHover={{
+                opacity: 1,
+                transition: { duration: 0.3 }
+              }}
+            />
           </li>
         ))}
       </motion.ul>

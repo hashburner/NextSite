@@ -45,7 +45,7 @@ const Bookings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-backgroundalt py-10 px-4 sm:py-20">
+    <div className="min-h-screen py-10 px-4 sm:py-20">
       <motion.h2 
         className="text-4xl sm:text-5xl font-bold text-center text-accent mb-8 sm:mb-16"
         initial={{ opacity: 0, y: -50 }}
