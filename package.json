@@ -15,7 +15,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-scroll-snap": "^1.0.0",
-    "recharts": "^2.12.7"
+    "recharts": "^2.12.7",
+    "tailwindcss-gradients": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
