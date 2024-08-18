@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Section } from './../ClientComponent';
@@ -69,14 +71,37 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
     };
   }, [showDetails]);
 
+  const buttonVariants = {
+    rest: { scale: 1, boxShadow: "0px 0px 8px rgb(255, 107, 107, 0.5)" },
+    hover: { 
+      scale: 1.05, 
+      boxShadow: "0px 0px 20px rgb(255, 107, 107, 0.8)",
+      transition: {
+        duration: 0.3,
+        yoyo: Infinity,
+      }
+    },
+    tap: { scale: 0.95, boxShadow: "0px 0px 0px rgb(255, 107, 107, 0)" }
+  };
+
+  const AnimatedText: React.FC<{ text: string; className?: string }> = ({ text, className }) => (
+    <motion.span 
+      className={`bg-clip-text text-transparent bg-gradient-to-r from-accent to-gradient2 ${className}`}
+      animate={{
+        backgroundPosition: ['0%', '100%', '0%'],
+      }}
+      transition={{
+        duration: 5,
+        repeat: Infinity,
+        repeatType: "reverse"
+      }}
+    >
+      {text}
+    </motion.span>
+  );
+
   return (
     <div ref={containerRef} className="relative h-full overflow-hidden">
-      <div className="absolute inset-0 bg-cover bg-center z-0" 
-           style={{
-             backgroundImage: "url('/images/hero.png')", 
-             backgroundPosition: "center 65%",
-             transform: "scale(1.1)"
-           }} />
       <motion.div
         initial={{ top: "50%", left: "50%", x: "-50%", y: "-50%" }}
         animate={titleControls}
@@ -84,7 +109,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
       >
         <h1 className="text-7xl font-bold mb-2 text-white">KILLIAN TAYLOR</h1>
         <h2 className="text-5xl font-bold">
-          <span className="text-accent">SOUND ENGINEER</span>
+          <AnimatedText text="SOUND ENGINEER" />
         </h2>
       </motion.div>
 
@@ -94,7 +119,9 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
         className="absolute top-1/4 left-0 right-0 z-20 flex flex-col items-center px-4 max-w-7xl mx-auto"
       >
         <div className="w-2/3 text-center mb-12">
-          <h3 className="text-4xl font-bold text-accent mb-6">Elevate Your Sound</h3>
+          <h3 className="text-4xl font-bold mb-6">
+            <AnimatedText text="Elevate Your Sound" />
+          </h3>
           <p className="text-2xl text-white">
             With over a decade of experience in the music industry, Killian Taylor brings unparalleled expertise to every project. From intimate acoustic sessions to full-scale productions, your sound is in masterful hands.
           </p>
@@ -105,41 +132,27 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
               key={section}
               onClick={() => setActiveSection(section)}
               className="relative px-8 py-4 rounded-full text-2xl font-bold uppercase overflow-hidden"
-              style={{
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
-                background: 'linear-gradient(45deg, #1a1a1a, #3a3a3a)',
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              variants={buttonVariants}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
             >
-              {/* Gradient background animation */}
               <motion.div
-                className="absolute inset-0"
-                style={{
-                  background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)',
-                  opacity: 0
+                className="absolute inset-0 bg-gradient-to-r from-accent to-gradient2"
+                animate={{
+                  backgroundPosition: ['0%', '100%', '0%'],
                 }}
-                whileHover={{
-                  opacity: 0.6,
-                  transition: { duration: 0.3 }
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  repeatType: "reverse"
                 }}
               />
-              
-              {/* Animated shine effect */}
               <motion.div
-                className="absolute inset-0 bg-white opacity-10"
-                style={{ mixBlendMode: 'overlay' }}
-                initial={{ width: '100%', x: '-100%' }}
-                whileHover={{
-                  x: '100%',
-                  transition: { repeat: Infinity, duration: 1, ease: 'linear' }
-                }}
+                className="absolute inset-0 bg-background opacity-90"
+                whileHover={{ opacity: 0.7 }}
               />
-              
-              {/* Button text with gradient */}
-              <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-500 animate-gradient-x">
-                {section}
-              </span>
+              <AnimatedText text={section} className="relative z-10" />
             </motion.button>
           ))}
         </div>

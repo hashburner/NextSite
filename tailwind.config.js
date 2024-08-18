@@ -8,37 +8,56 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#1a1a1a',
-        backgroundalt: '#2a2a2a',
+        background: '#0a0a0a',
+        backgroundalt: '#1a1a1a',
         text: '#ffffff',
-        accent: '#ff6666',
-        accentdark: '#ff4d4d',
+        textmuted: '#a0a0a0',
+        accent: '#ff6b6b',
+        accentdark: '#ee5253',
+        gradient1: '#4158D0',
+        gradient2: '#C850C0',
+        gradient3: '#FFCC70',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       animation: {
-        'gradient-x': 'gradient-x 3s ease infinite',
+        'gradient-x': 'gradient-x 15s ease infinite',
+        'gradient-y': 'gradient-y 15s ease infinite',
+        'gradient-xy': 'gradient-xy 15s ease infinite',
       },
       keyframes: {
-        'gradient-x': {
+        'gradient-y': {
           '0%, 100%': {
-            'background-size': '200% 200%',
-            'background-position': 'left center',
+            'background-size': '400% 400%',
+            'background-position': 'center top'
           },
           '50%': {
             'background-size': '200% 200%',
-            'background-position': 'right center',
-          },
+            'background-position': 'center center'
+          }
         },
-      },
-      screens: {
-        'xs': '480px',
-        'sm': '640px',
-        'md': '768px',
-        'lg': '1024px',
-        'xl': '1280px',
-        '2xl': '1536px',
+        'gradient-x': {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center'
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center'
+          }
+        },
+        'gradient-xy': {
+          '0%, 100%': {
+            'background-size': '400% 400%',
+            'background-position': 'left center'
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center'
+          }
+        }
       },
     },
   },
