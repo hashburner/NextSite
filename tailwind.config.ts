@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import { PortfolioItem } from "./app/ClientComponent";
+import { PortfolioItem } from "./app/components/ClientComponent";
 
 const config: Config = {
   content: [
