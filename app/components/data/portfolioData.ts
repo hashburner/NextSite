@@ -9,9 +9,9 @@ export interface PortfolioItem {
   type: 'Album' | 'Single' | 'EP';
   genre: string;
   tracklist?: string[];
-  }
-  
-  export const portfolioData: PortfolioItem[] = [
+}
+
+export const portfolioData: PortfolioItem[] = [
     { 
       title: "What Was the Question?", 
       artist: "Curtisy", 
