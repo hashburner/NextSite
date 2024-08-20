@@ -15,6 +15,8 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
   const [isScrolling, setIsScrolling] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const sections: { name: Section; icon: React.ElementType }[] = [
     { name: 'portfolio', icon: BsMusicNote },
@@ -61,6 +63,27 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
     };
   }, [currentSection, isScrolling]);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchEnd = () => {
+    if (!isScrolling) {
+      if (touchStart - touchEnd > 50 && currentSection < 3) {
+        setCurrentSection(prev => prev + 1);
+      }
+      if (touchStart - touchEnd < -50 && currentSection > 0) {
+        setCurrentSection(prev => prev - 1);
+      }
+    }
+    setIsScrolling(true);
+    setTimeout(() => setIsScrolling(false), 250);
+  };
+
   useEffect(() => {
     controls.start({
       opacity: 1,
@@ -96,7 +119,13 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
   );
 
   return (
-    <div ref={containerRef} className="relative h-full overflow-hidden">
+    <div 
+      ref={containerRef} 
+      className="relative h-full overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <motion.div
         initial={{ opacity: 1, y: 0 }}
         animate={{ 
@@ -104,7 +133,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
           y: currentSection === 0 ? 0 : -100,
         }}
         transition={{ duration: 0.5 }}
-        className="absolute top-1/2  -translate-x-1/2 -translate-y-1/2 text-center w-full"
+        className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full"
       >
         <h1 className="text-7xl font-bold mb-2 text-white">KILLIAN TAYLOR</h1>
         <h2 className="text-5xl font-bold mb-8">
@@ -312,27 +341,26 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2 }}
-                >
-                  <img src={work.image} alt={work.title} className="w-full h-64 object-cover rounded-lg shadow-lg mb-4" />
-                  <h4 className="text-xl font-bold text-white">{work.title}</h4>
-                  <p className="text-accent">{work.artist}</p>
-                </motion.div>
-              ))}
-            </div>
-            <motion.button
-              onClick={() => setActiveSection('portfolio')}
-              className="flex items-center space-x-2 bg-accent text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-gradient2 transition-colors duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <span>View Full Portfolio</span>
-              <BsArrowRight size={20} />
-            </motion.button>
-          </div>
+                  >
+              <img src={work.image} alt={work.title} className="w-full h-64 object-cover rounded-lg shadow-lg mb-4" />
+              <h4 className="text-xl font-bold text-white">{work.title}</h4>
+              <p className="text-accent">{work.artist}</p>
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
+        <motion.button
+          onClick={() => setActiveSection('portfolio')}
+          className="flex items-center space-x-2 bg-accent text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-gradient2 transition-colors duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span>View Full Portfolio</span>
+          <BsArrowRight size={20} />
+        </motion.button>
+      </div>
     </div>
-  );
+  </motion.div>
+</div>
+);
 };
-
 export default Home;
