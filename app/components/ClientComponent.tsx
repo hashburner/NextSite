@@ -6,12 +6,10 @@ import Header from './Header';
 import Footer from './Footer';
 import Home from './sections/Home';
 import Portfolio from './sections/Portfolio';
-import Services from './sections/Services';
-import Bookings from './sections/Bookings';
-import About from './sections/About';
+import ServicesAndBookings from './sections/ServicesAndBookings';
 import AnimatedBackground from './AnimatedBackground';
 
-export type Section = 'home' | 'portfolio' | 'services' | 'bookings' | 'about';
+export type Section = 'home' | 'portfolio' | 'services' | 'bookings';
 
 const pageVariants = {
   initial: { opacity: 0, scale: 0.8 },
@@ -38,12 +36,10 @@ const ClientComponent: React.FC = () => {
     switch (activeSection) {
       case 'home': return <Home setActiveSection={setActiveSection} />;
       case 'portfolio': return <Portfolio />;
-      case 'services': return <Services />;
-      case 'bookings': return <Bookings />;
-      case 'about': return <About />;
+      case 'services': return <ServicesAndBookings />;
+      default: return null;
     }
   };
-
   return (
     <div className="bg-background text-text h-screen flex flex-col font-sans overflow-hidden">
       <AnimatedBackground />

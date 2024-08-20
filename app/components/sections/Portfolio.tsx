@@ -115,7 +115,7 @@ const Portfolio: React.FC = () => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-[calc(100vh-250px)] overflow-y-auto pb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-[calc(100vh-250px)] overflow-y-auto pb-8 custom-scrollbar">
         {filteredData.map((item, index) => (
           <motion.div
             key={item.title}
@@ -220,6 +220,21 @@ const Portfolio: React.FC = () => {
           color: white;
           transform: rotateY(180deg);
           padding: 1rem;
+        }
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: var(--accent-color) var(--background-color);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: var(--background-color);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: var(--accent-color);
+          border-radius: 4px;
+          border: 2px solid var(--background-color);
         }
       `}</style>
     </div>
