@@ -81,7 +81,7 @@ const About: React.FC = () => {
               }}
             >
               <motion.img
-                src="/images/killian-taylor.jpg"
+                src="./MJ.png"
                 alt="Killian Taylor"
                 className="w-full h-full object-cover"
                 animate={{ scale: [1, 1.05, 1] }}

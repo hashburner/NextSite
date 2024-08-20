@@ -145,7 +145,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
           transition={{ delay: 0.5, duration: 0.5 }}
           className="text-xl text-gray-300 mb-12"
         >
-          Elevating sound to new heights
+          ⠀
         </motion.p>
         <ArrowDown />
       </motion.div>
@@ -184,7 +184,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <img
-                src="/images/killian-taylor.jpg"
+                src="../../../public/images/muso.jpg"
                 alt="Killian Taylor"
                 className="w-full h-full object-cover"
               />
