@@ -83,7 +83,7 @@ const About: React.FC = () => {
               <motion.img
                 src="./MJ.png"
                 alt="Killian Taylor"
-                className="w-full h-full object-cover"
+                className="w-full h-fullr"
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 5, repeat: Infinity }}
               />
