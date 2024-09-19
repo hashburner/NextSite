@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData, PortfolioItem } from '../data/portfolioData';
 
 const Portfolio: React.FC = () => {
-  const [flippedCardIndex, setFlippedCardIndex] = useState<number | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean[]>(new Array(portfolioData.length).fill(false));
-  const audioRefs = useRef<(HTMLAudioElement | null)[]>(new Array(portfolioData.length).fill(null));
+  const [flippedCardId, setFlippedCardId] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState<{ [key: string]: boolean }>({});
+  const audioRefs = useRef<{ [key: string]: HTMLAudioElement | null }>({});
   const [typeFilter, setTypeFilter] = useState<string>('All');
   const [genreFilter, setGenreFilter] = useState<string>('All');
   const [expandedItem, setExpandedItem] = useState<PortfolioItem | null>(null);
@@ -17,24 +17,24 @@ const Portfolio: React.FC = () => {
     );
   }, [typeFilter, genreFilter]);
 
-  const handleFlip = (index: number) => {
-    setFlippedCardIndex(prevIndex => prevIndex === index ? null : index);
+  const handleFlip = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setFlippedCardId(prevId => prevId === id ? null : id);
   };
 
-  const togglePlay = (index: number) => {
-    const audio = audioRefs.current[index];
+  const togglePlay = (id: string) => {
+    const audio = audioRefs.current[id];
     if (audio) {
-      if (isPlaying[index]) {
+      if (isPlaying[id]) {
         audio.pause();
         audio.currentTime = 0;
       } else {
         audio.play().catch(console.error);
       }
-      setIsPlaying(prev => {
-        const newIsPlaying = [...prev];
-        newIsPlaying[index] = !newIsPlaying[index];
-        return newIsPlaying;
-      });
+      setIsPlaying(prev => ({
+        ...prev,
+        [id]: !prev[id]
+      }));
     }
   };
 
@@ -43,31 +43,54 @@ const Portfolio: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 flex items-center justify-center z-50 p-4 "
       onClick={() => setExpandedItem(null)}
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.8 }}
-        className="bg-backgroundalt p-8 rounded-lg w-[90vw] h-[90vh] overflow-y-auto"
+        className="bg-gradient-to-br from-gray-900 to-black rounded-3xl p-8 shadow-2xl overflow-hidden relative w-[90vw] max-w-5xl max-h-[90vh] overflow-y-auto drop-shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-col lg:flex-row">
-          <img src={item.image} alt={item.title} className="w-full lg:w-1/2 object-cover rounded-lg mb-4 lg:mb-0 lg:mr-8" />
+        <motion.div 
+          className="absolute inset-0 opacity-10"
+          animate={{
+            background: [
+              'radial-gradient(circle, #4a00e0 0%, #8e2de2 100%)',
+              'radial-gradient(circle, #8e2de2 0%, #4a00e0 100%)',
+              'radial-gradient(circle, #4a00e0 0%, #8e2de2 100%)',
+            ],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+        />
+        <div className="relative z-10 flex flex-col lg:flex-row">
+          <div className="w-full lg:w-1/2 flex-shrink-0 mb-4 lg:mb-0 lg:mr-8">
+            <div className="w-full h-0 pb-[100%] relative">
+              <img 
+                src={item.image} 
+                alt={item.title} 
+                className="absolute inset-0 w-full h-full object-contain"
+              />
+            </div>
+          </div>
           <div className="lg:w-1/2">
-            <h2 className="text-4xl font-bold mb-2">{item.title}</h2>
-            <p className="text-2xl mb-4">{item.artist}</p>
-            <p className="text-xl mb-2">Type: {item.type}</p>
-            <p className="text-xl mb-4">Genre: {item.genre}</p>
-            <h3 className="text-2xl font-bold mb-2">Tracklist:</h3>
-            <ul className="list-disc list-inside mb-4 text-lg">
+            <h2 className="text-3xl font-bold mb-2 text-white">{item.title}</h2>
+            <p className="text-xl mb-4 text-accent">{item.artist}</p>
+            <p className="text-lg mb-2 text-white">Type: {item.type}</p>
+            <p className="text-lg mb-4 text-white">Genre: {item.genre}</p>
+            <h3 className="text-xl font-bold mb-2 text-white">Tracklist:</h3>
+            <ul className="list-disc list-inside mb-4 text-white">
               {item.tracklist?.map((track, index) => (
                 <li key={index}>{track}</li>
               ))}
             </ul>
-            <h3 className="text-2xl font-bold mb-2">Credits:</h3>
-            <p className="whitespace-pre-line mb-4 text-lg">{item.credits}</p>
+            <h3 className="text-xl font-bold mb-2 text-white">Credits:</h3>
+            <p className="whitespace-pre-line mb-4 text-white">{item.credits}</p>
             {item.spotifyLink && (
               <a
                 href={item.spotifyLink}
@@ -115,18 +138,18 @@ const Portfolio: React.FC = () => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-[calc(100vh-250px)] overflow-y-auto pb-8">
-        {filteredData.map((item, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)] overflow-y-auto pb-8 custom-scrollbar">
+        {filteredData.map((item) => (
           <motion.div
-            key={item.title}
+            key={item.id}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 * (index % 4), duration: 0.5 }}
+            transition={{ delay: 0.1 * (filteredData.indexOf(item) % 4), duration: 0.5 }}
             className="w-full"
           >
             <div 
-              className={`flip-card ${flippedCardIndex === index ? 'flipped' : ''}`} 
-              onClick={() => handleFlip(index)}
+              className={`flip-card ${flippedCardId === item.id ? 'flipped' : ''}`} 
+              onClick={(e) => handleFlip(item.id, e)}
             >
               <div className="flip-card-inner">
                 <div className="flip-card-front">
@@ -146,31 +169,6 @@ const Portfolio: React.FC = () => {
                   >
                     More Info
                   </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      togglePlay(index);
-                    }}
-                    className="mt-2 bg-accent hover:bg-accent-dark text-white rounded-full w-12 h-12 flex items-center justify-center transition-all duration-300"
-                  >
-                    <motion.div
-                      animate={{ rotate: isPlaying[index] ? 360 : 0 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {isPlaying[index] ? '◼' : '▶'}
-                    </motion.div>
-                  </button>
-                  <audio
-                    ref={(el) => {
-                      audioRefs.current[index] = el;
-                    }}
-                    src={item.audioSrc}
-                    onEnded={() => setIsPlaying(prev => {
-                      const newIsPlaying = [...prev];
-                      newIsPlaying[index] = false;
-                      return newIsPlaying;
-                    })}
-                  />
                 </div>
               </div>
             </div>
@@ -220,6 +218,21 @@ const Portfolio: React.FC = () => {
           color: white;
           transform: rotateY(180deg);
           padding: 1rem;
+        }
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: var(--accent-color) var(--background-color);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: var(--background-color);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: var(--accent-color);
+          border-radius: 4px;
+          border: 2px solid var(--background-color);
         }
       `}</style>
     </div>
