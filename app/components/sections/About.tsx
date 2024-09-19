@@ -70,7 +70,7 @@ const About: React.FC = () => {
         <Card>
           <div className="relative z-10 flex flex-col md:flex-row items-center h-full">
             <motion.div 
-              className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden mb-8 md:mb-0 md:mr-12 shadow-lg"
+              className="w-32 h-32 md:w-56 md:h-56 rounded-full overflow-hidden mb-8 md:mb-0 md:mr-12 shadow-lg"
               animate={{ 
                 y: [0, -10, 0],
                 transition: { 
@@ -83,7 +83,7 @@ const About: React.FC = () => {
               <motion.img
                 src="./MJ.png"
                 alt="Killian Taylor"
-                className="w-full h-fullr"
+                className="w-full h-full object-cover rounded-full"
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 5, repeat: Infinity }}
               />
@@ -91,7 +91,7 @@ const About: React.FC = () => {
 
             <div className="flex-1">
               <motion.h2 
-                className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent to-gradient2"
+                className="text-2xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent to-gradient2 text-center"
                 animate={{ 
                   backgroundPosition: ['0%', '100%', '0%'],
                 }}

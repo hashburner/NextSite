@@ -5,6 +5,7 @@ import { BsMusicNote, BsMusicNoteList, BsCalendarCheck, BsUpload } from 'react-i
 const ServicesAndBookings: React.FC = () => {
   const [activeCard, setActiveCard] = useState<'services' | 'bookings'>('services');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const bookingFormRef = useRef<HTMLDivElement>(null);
 
   const services = [
     { 
@@ -72,6 +73,12 @@ const ServicesAndBookings: React.FC = () => {
     }
   };
 
+  const scrollToBookingForm = () => {
+    if (bookingFormRef.current) {
+      bookingFormRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen py-10 px-4 sm:py-20 flex items-center justify-center">
       <motion.div layout className="w-full max-w-7xl flex flex-col lg:flex-row gap-8">
@@ -115,6 +122,12 @@ const ServicesAndBookings: React.FC = () => {
                 </motion.div>
               ))}
             </div>
+            <button
+              onClick={scrollToBookingForm}
+              className="mt-8 bg-accent text-white font-bold py-2 px-4 rounded hover:bg-accent-dark transition-colors duration-2000"
+            >
+              Book a Session
+            </button>
           </motion.div>
         </motion.div>
 
@@ -141,7 +154,7 @@ const ServicesAndBookings: React.FC = () => {
               repeatType: "reverse"
             }}
           />
-          <motion.div layout className="relative z-10">
+          <motion.div layout className="relative z-10" ref={bookingFormRef}>
             <h2 className="text-4xl font-bold text-accent mb-8">Book a Session</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -246,3 +259,4 @@ const ServicesAndBookings: React.FC = () => {
 };
 
 export default ServicesAndBookings;
+

@@ -16,25 +16,35 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
     { name: 'services', label: 'Bookings & Services' },
   ];
 
+  const navigateToHome = () => {
+    setActiveSection('home');
+    setMenuOpen(false);
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 py-3 px-6 flex justify-between items-center z-10 white bg-opacity-20 backdrop-filter backdrop-blur-lg">
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
+        transition={{ delay: 0.2, duration: 0.3 }}
         className="text-xl font-bold text-white"
       >
-        KILLIAN TAYLOR<span className="text-accent">AUDIO</span>
+        <button onClick={navigateToHome} className="focus:outline-none">
+          KILLIAN TAYLOR<span className="text-accent">AUDIO</span>
+        </button>
       </motion.div>
       <div className="lg:hidden">
-        <button onClick={() => setMenuOpen(!menuOpen)} className="text-white">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="text-white"
+        >
           {menuOpen ? 'Close' : 'Menu'}
         </button>
       </div>
       <motion.ul
         initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
+        animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? 0 : 50 }}
+        transition={{ duration: 0.3 }}
         className={`lg:flex space-y-4 lg:space-y-0 lg:space-x-6 ${menuOpen ? 'block' : 'hidden'} absolute lg:relative top-full left-0 right-0 bg-stone-900 lg:bg-transparent p-4 lg:p-0`}
       >
         {navItems.map((item) => (
@@ -55,14 +65,14 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
                 className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: activeSection === item.name ? 1 : 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
               />
             </motion.button>
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-accent to-gradient2 opacity-0 mix-blend-overlay blur-sm"
               whileHover={{
                 opacity: 1,
-                transition: { duration: 0.3 }
+                transition: { duration: 0.2 }
               }}
             />
           </li>
@@ -73,3 +83,4 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
 };
 
 export default Header;
+

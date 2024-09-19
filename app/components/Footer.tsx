@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-transparent py-4 px-6 flex justify-center items-center">
+    <footer className="hidden md:flex bg-transparent py-4 px-6 justify-center items-center">
       <div className="flex space-x-8">
         {socialLinks.map((link, index) => (
           <motion.a

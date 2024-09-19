@@ -32,9 +32,9 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
   ];
 
   const featuredWorks = [
-    { title: "What Was the Question?", artist: "Curtisy", image: "/images/placeholder_artwork_1.jpg" },
-    { title: "Four Winds Echo On The Stave", artist: "Leon McMahon", image: "/images/placeholder_artwork_2.jpg" },
-    { title: "Weed Addict", artist: "Peer Pleasure", image: "/images/Weed%20Addict_album_cover.jpg" },
+    { title: "What Was the Question?", artist: "Curtisy", image: "/images/Covers/placeholder_artwork_1.jpg" },
+    { title: "Four Winds Echo On The Stave", artist: "Leon McMahon", image: "/images/Covers/placeholder_artwork_2.jpg" },
+    { title: "Weed Addict", artist: "Peer Pleasure", image: "/images/Covers/weed addict_album_cover.jpg" },
   ];
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
   return (
     <div 
       ref={containerRef} 
-      className="relative h-full overflow-hidden"
+      className="relative h-full overflow-hidden md:pl-16"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -199,24 +199,36 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
           />
           <div className="relative z-10 flex flex-col md:flex-row items-center h-full">
             <motion.div 
-              className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden mb-8 md:mb-0 md:mr-12 shadow-lg"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              className="w-32 h-32 md:w-56 md:h-56 rounded-full overflow-hidden mb-8 md:mb-0 md:mr-12 shadow-lg"
+              animate={{ 
+                y: [0, -10, 0],
+                transition: { 
+                  duration: 5, 
+                  repeat: Infinity, 
+                  repeatType: "reverse" 
+                }
+              }}
             >
-               <img
+              <motion.img
                 src="/images/me.jpg"
                 alt="Killian Taylor"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-full"
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 5, repeat: Infinity }}
               />
             </motion.div>
 
             <div className="flex-1 text-white">
               <motion.h2 
-                className="text-3xl md:text-5xl font-bold mb-4 text-accent"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                className="text-2xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent to-gradient2 text-center"
+                animate={{ 
+                  backgroundPosition: ['0%', '100%', '0%'],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
               >
                 Killian Taylor
               </motion.h2>
