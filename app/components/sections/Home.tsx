@@ -43,7 +43,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
       if (isScrolling) return;
       
       setIsScrolling(true);
-      if (e.deltaY > 0 && currentSection < 3) {
+      if (e.deltaY > 0 && currentSection < 2) {
         setCurrentSection(prev => prev + 1);
       } else if (e.deltaY < 0 && currentSection > 0) {
         setCurrentSection(prev => prev - 1);
@@ -73,7 +73,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
 
   const handleTouchEnd = () => {
     if (!isScrolling) {
-      if (touchStart - touchEnd > 50 && currentSection < 3) {
+      if (touchStart - touchEnd > 50 && currentSection < 2) {
         setCurrentSection(prev => prev + 1);
       }
       if (touchStart - touchEnd < -50 && currentSection > 0) {
@@ -118,6 +118,10 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
     </motion.div>
   );
 
+  // Animation speed variables
+  const cardAnimationSpeed = 0.50; // in seconds
+  const textAnimationSpeed = 0.35; // in seconds
+
   return (
     <div 
       ref={containerRef} 
@@ -126,41 +130,58 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Main title section */}
       <motion.div
         initial={{ opacity: 1, y: 0 }}
         animate={{ 
           opacity: currentSection === 0 ? 1 : 0,
-          y: currentSection === 0 ? 0 : -100,
+          y: currentSection === 0 ? 0 : -50,
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: cardAnimationSpeed, delay: 0.3, ease: "easeInOut" }}
         className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full"
       >
-        <h1 className="text-7xl font-bold mb-2 text-white">KILLIAN TAYLOR</h1>
-        <h2 className="text-5xl font-bold mb-8">
-          <AnimatedText text="SOUND ENGINEER" />
-        </h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="text-xl text-gray-300 mb-12"
+        <motion.h1 
+          className="text-7xl font-bold mb-2 text-white"
+          animate={{ 
+            opacity: currentSection === 0 ? 1 : 0,
+            y: currentSection === 0 ? 0 : -30,
+          }}
+          transition={{ duration: textAnimationSpeed, ease: "easeInOut" }}
         >
-          ⠀
-        </motion.p>
+          KILLIAN TAYLOR
+        </motion.h1>
+        <motion.h2 
+          className="text-5xl font-bold mb-8"
+          animate={{ 
+            opacity: currentSection === 0 ? 1 : 0,
+            y: currentSection === 0 ? 0 : -20,
+          }}
+          transition={{ duration: textAnimationSpeed, delay: 0.2, ease: "easeInOut" }}
+        >
+          <AnimatedText text="SOUND ENGINEER" />
+          
+        </motion.h2>
+        <br />
+        <br />
         <ArrowDown />
       </motion.div>
 
       {/* About Card */}
       <motion.div 
         className="absolute inset-0 flex items-center justify-center"
-        initial={{ opacity: 0, y: 100 }}
+        initial={{ opacity: 0, y: '100%' }}
         animate={{ 
           opacity: currentSection === 1 ? 1 : 0, 
-          y: currentSection === 1 ? 0 : 100 
+          y: currentSection === 1 ? 0 : '100%' 
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: cardAnimationSpeed, delay: 0.5, ease: "easeInOut" }}
       >
-        <div className="w-[90vw] h-[80vh] bg-gradient-to-br from-gray-900 to-black rounded-3xl p-8 shadow-2xl overflow-hidden relative">
+        <motion.div 
+          className="w-[85vw] h-[75vh] bg-gradient-to-br from-gray-900 to-black rounded-3xl p-8 shadow-2xl overflow-hidden relative"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: currentSection === 1 ? 1 : 0 }}
+          transition={{ duration: textAnimationSpeed, delay: cardAnimationSpeed * 0.2 }}
+        >
           <motion.div 
             className="absolute inset-0 opacity-10"
             animate={{
@@ -183,8 +204,8 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <img
-                src="../../../public/images/muso.jpg"
+               <img
+                src="/images/me.jpg"
                 alt="Killian Taylor"
                 className="w-full h-full object-cover"
               />
@@ -227,10 +248,29 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
                 With over a decade of experience in crafting sonic masterpieces, I bring unparalleled expertise to every project. From intimate acoustic sessions to full-scale productions, your sound is in masterful hands.
               </motion.p>
               <motion.div 
-                className="flex space-x-4"
+                className="flex flex-wrap justify-center md:justify-start gap-4 mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                {sections.map((section) => (
+                  <motion.button
+                    key={section.name}
+                    onClick={() => setActiveSection(section.name)}
+                    className="flex items-center space-x-2 bg-accent text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-gradient2 transition-colors duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <section.icon size={20} />
+                    <span>{section.name.charAt(0).toUpperCase() + section.name.slice(1)}</span>
+                  </motion.button>
+                ))}
+              </motion.div>
+              <motion.div 
+                className="flex space-x-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
               >
                 {socialLinks.map((link, index) => (
                   <motion.a
@@ -249,71 +289,25 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
             </div>
           </div>
           <ArrowDown />
-        </div>
-      </motion.div>
-
-      {/* Elevate Your Sound Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ 
-          opacity: currentSection === 2 ? 1 : 0, 
-          y: currentSection === 2 ? 0 : 50 
-        }}
-        transition={{ duration: 0.5 }}
-        className="absolute inset-0 flex items-center justify-center"
-      >
-        <div className="w-[90vw] h-[80vh] bg-gradient-to-br from-blue-900 to-purple-900 rounded-3xl p-8 shadow-2xl overflow-hidden relative">
-          <motion.div 
-            className="absolute inset-0 opacity-10"
-            animate={{
-              background: [
-                'radial-gradient(circle, #00e0e0 0%, #2d8ee2 100%)',
-                'radial-gradient(circle, #2d8ee2 0%, #00e0e0 100%)',
-                'radial-gradient(circle, #00e0e0 0%, #2d8ee2 100%)',
-              ],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}
-          />
-          <div className="relative z-10 flex flex-col h-full justify-center items-center text-center">
-            <h3 className="text-4xl font-bold mb-6 text-white">
-              <AnimatedText text="Elevate Your Sound" />
-            </h3>
-            <p className="text-2xl text-white mb-12 max-w-3xl">
-              With over a decade of experience in the music industry, Killian Taylor brings unparalleled expertise to every project. From intimate acoustic sessions to full-scale productions, your sound is in masterful hands.
-            </p>
-            <div className="flex space-x-8">
-              {sections.map((section) => (
-                <motion.button
-                  key={section.name}
-                  onClick={() => setActiveSection(section.name)}
-                  className="text-accent hover:text-gradient2 transition-colors duration-300"
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <section.icon size={48} />
-                </motion.button>
-              ))}
-            </div>
-          </div>
-          <ArrowDown />
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Featured Works Card */}
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ 
-          opacity: currentSection === 3 ? 1 : 0, 
-          y: currentSection === 3 ? 0 : 50 
-        }}
-        transition={{ duration: 0.5 }}
         className="absolute inset-0 flex items-center justify-center"
+        initial={{ opacity: 0, y: '100%' }}
+        animate={{ 
+          opacity: currentSection === 2 ? 1 : 0, 
+          y: currentSection === 2 ? 0 : '100%' 
+        }}
+        transition={{ duration: cardAnimationSpeed, delay: 0.3, ease: "easeInOut" }}
       >
-        <div className="w-[90vw] h-[80vh] bg-gradient-to-br from-gray-800 to-black rounded-3xl p-8 shadow-2xl overflow-hidden relative">
+        <motion.div 
+          className="w-[85vw] h-[75vh] bg-gradient-to-br from-gray-800 to-black rounded-3xl p-8 shadow-2xl overflow-hidden relative"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: currentSection === 2 ? 1 : 0 }}
+          transition={{ duration: textAnimationSpeed, delay: cardAnimationSpeed * 0.2 }}
+        >
           <motion.div 
             className="absolute inset-0 opacity-10"
             animate={{
@@ -341,26 +335,26 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2 }}
-                  >
-              <img src={work.image} alt={work.title} className="w-full h-64 object-cover rounded-lg shadow-lg mb-4" />
-              <h4 className="text-xl font-bold text-white">{work.title}</h4>
-              <p className="text-accent">{work.artist}</p>
-            </motion.div>
-          ))}
-        </div>
-        <motion.button
-          onClick={() => setActiveSection('portfolio')}
-          className="flex items-center space-x-2 bg-accent text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-gradient2 transition-colors duration-300"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <span>View Full Portfolio</span>
-          <BsArrowRight size={20} />
-        </motion.button>
-      </div>
+                >
+                  <img src={work.image} alt={work.title} className="w-full h-64 object-cover rounded-lg shadow-lg mb-4" />
+                  <h4 className="text-xl font-bold text-white">{work.title}</h4>
+                  <p className="text-accent">{work.artist}</p>
+                </motion.div>
+              ))}
+            </div>
+            <motion.button
+              onClick={() => setActiveSection('portfolio')}
+              className="flex items-center space-x-2 bg-accent text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-gradient2 transition-colors duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span>View Full Portfolio</span>
+              <BsArrowRight size={20} />
+            </motion.button>
+          </div>
+        </motion.div>
+      </motion.div>
     </div>
-  </motion.div>
-</div>
-);
+  );
 };
 export default Home;
