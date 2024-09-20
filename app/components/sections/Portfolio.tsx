@@ -111,7 +111,7 @@ const Portfolio: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-24">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-4xl font-bold text-accent">Latest Projects</h2>
+        <h2 className="text-4xl font-bold text-accent">Featured Projects</h2>
         <div className="flex space-x-4">
           <select 
             className="bg-backgroundalt text-text p-2 rounded"

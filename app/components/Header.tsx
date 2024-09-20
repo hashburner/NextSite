@@ -43,9 +43,9 @@ const Header: React.FC<HeaderProps> = ({ activeSection, setActiveSection }) => {
       </div>
       <motion.ul
         initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? 0 : 50 }}
+        animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3 }}
-        className={`lg:flex space-y-4 lg:space-y-0 lg:space-x-6 ${menuOpen ? 'block' : 'hidden'} absolute lg:relative top-full left-0 right-0 bg-stone-900 lg:bg-transparent p-4 lg:p-0`}
+        className={`lg:flex space-y-4 lg:space-y-0 lg:space-x-6 ${menuOpen ? 'block' : 'hidden lg:block'} absolute lg:relative top-full lg:top-auto left-0 right-0 bg-stone-900 lg:bg-transparent p-4 lg:p-0`}
       >
         {navItems.map((item) => (
           <li key={item.name} className="cursor-pointer relative overflow-hidden">

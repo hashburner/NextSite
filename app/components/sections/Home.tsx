@@ -138,7 +138,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
           y: currentSection === 0 ? 0 : -50,
         }}
         transition={{ duration: cardAnimationSpeed, delay: 0.3, ease: "easeInOut" }}
-        className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full"
+        className="absolute top-1/2 left-2 -translate-x-1/2 -translate-y-1/2 text-center w-full md:w-[calc(100%-4rem)]"
       >
         <motion.h1 
           className="text-7xl font-bold mb-2 text-white"
@@ -220,7 +220,7 @@ const Home: React.FC<HomeProps> = ({ setActiveSection }) => {
 
             <div className="flex-1 text-white">
               <motion.h2 
-                className="text-2xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent to-gradient2 text-center"
+                className="text-2xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent to-gradient2 text-center-left"
                 animate={{ 
                   backgroundPosition: ['0%', '100%', '0%'],
                 }}
